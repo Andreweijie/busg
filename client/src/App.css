@@ -1,0 +1,73 @@
+.App {
+  text-align: left;
+  background-color: #edf2f4;
+}
+.App span {
+  color: #ef233c;
+}
+
+.icon {
+  transform: scale(0.9);
+  color: #8d99ae;
+}
+.App .header {
+  font-size: 100px;
+  text-align: center;
+  font-weight: 100;
+  color: #111a2f;
+}
+.header2 {
+  font-size: 80px;
+  text-align: center;
+  color: #111a2f;
+}
+
+.bus-number {
+  font-weight: 700;
+}
+
+.first-time,
+.second-time {
+  font-weight: 200;
+  text-align: right;
+}
+/*.container {
+  background-color: #ef233c;
+  border-radius: 0.5em;
+  box-shadow: 0rem 0.35rem 3.375rem 0 #ef233c;
+  margin-top: 2em;
+  padding: 2em;
+  padding-left: 50px;
+  color: white;
+}*/
+div.bus-nav nav.navbar.navbar-light.bg-light {
+  background-color: black !important;
+}
+
+a.navbar-brand {
+  color: white !important;
+}
+
+.bus-stop h1 {
+  font-size: 70px;
+}
+
+.bus-stop {
+  background-color: #ef233c;
+  border-radius: 0.5em;
+  box-shadow: 0rem 0.35rem 3.375rem 0 #ef233c;
+  margin-top: 2em;
+  padding: 2em;
+  padding-left: 50px;
+  color: white;
+}
+
+.bus-data {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.search input {
+  height: 50px;
+}
