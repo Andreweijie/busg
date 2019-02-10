@@ -14,6 +14,15 @@ class Timing extends Component {
     }
   }
 
+  sinOrDoub(type) {
+    if (type == "SD") {
+      return "Single";
+    } else if (type == "DD") {
+      return "Double";
+    } else {
+      return "";
+    }
+  }
   render() {
     return (
       <div class="timing">
@@ -24,6 +33,7 @@ class Timing extends Component {
           this.formatToMin(this.props.NextOne.EstimatedArrival) == ""
             ? ""
             : "mins"}
+          <h3>{this.sinOrDoub(this.props.NextOne.Type)}</h3>
         </h2>
         <h2 className="second-time">
           {this.formatToMin(this.props.NextTwo.EstimatedArrival)}{" "}
@@ -32,6 +42,7 @@ class Timing extends Component {
           this.formatToMin(this.props.NextTwo.EstimatedArrival) == ""
             ? ""
             : "mins"}
+          <h3>{this.sinOrDoub(this.props.NextTwo.Type)}</h3>
         </h2>
       </div>
     );

@@ -96,4 +96,7 @@ app.get("/api/nearby", (req, res) => {
   });
 });
 
+app.get("/api/search", (req, res) => {
+  BusStop.find();
+});
 app.listen(port, () => console.log(`Server running on port ${port}`));

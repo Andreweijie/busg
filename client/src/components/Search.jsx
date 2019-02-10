@@ -2,6 +2,10 @@ import React, { Component } from "react";
 
 class Search extends Component {
   state = {};
+
+  ajaxSearch(queryString) {
+    fetch("/api/search?query=" + queryString).then();
+  }
   render() {
     return (
       <div className="search container">

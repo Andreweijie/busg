@@ -12,11 +12,18 @@ class BusStop extends Component {
     };
   }
   componentDidMount() {
-    /*let headers = {
-      AccountKey: "xGVgRkvQRJK7Mr6RGYiLLQ==",
-      Accept: "application/json"
-    };*/
-    //fetch("/ltaodataservice/BusArrivalv2?BusStopCode=" + this.props.stopID)
+    this.fetchData();
+    fetch("/api/busname?buscode=" + this.props.stopID)
+      .then(response => response.json())
+      .then(data =>
+        this.setState({
+          BusStopName: data[0].Description
+        })
+      );
+  }
+
+  fetchData() {
+    console.log("fetching...");
     fetch("/api/busdata?buscode=" + this.props.stopID)
       .then(response => response.json())
       .then(data =>
@@ -26,18 +33,13 @@ class BusStop extends Component {
           //BusStopName: this.getName(this.props.stopID)
         })
       );
-
-    fetch("/api/busname?buscode=" + this.props.stopID)
-      .then(response => response.json())
-      .then(data =>
-        this.setState({
-          BusStopName: data[0].Description
-        })
-      );
   }
   render() {
     return (
       <div className="bus-stop">
+        <button className="refresh" onClick={() => this.fetchData()}>
+          REFRESH
+        </button>
         <h1>
           {this.state.BusStopName}
           <h4>{this.state.BusStopCode}</h4>
