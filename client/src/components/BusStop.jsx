@@ -37,13 +37,16 @@ class BusStop extends Component {
   render() {
     return (
       <div className="bus-stop">
-        <button className="refresh" onClick={() => this.fetchData()}>
-          REFRESH
-        </button>
-        <h1>
-          {this.state.BusStopName}
-          <h4>{this.state.BusStopCode}</h4>
-        </h1>
+        <div className="bus-head">
+          <h1>
+            {this.state.BusStopName}
+            <h4>{this.state.BusStopCode}</h4>
+          </h1>
+          <button className="refresh" onClick={() => this.fetchData()}>
+            REFRESH
+          </button>
+        </div>
+
         <hr />
         {this.state.Services.map((e, i) => {
           return (
