@@ -36,11 +36,11 @@ class App extends Component {
     return (
       <div className="App">
         <h1 className="header">
+          <FontAwesomeIcon className="icon" icon="bus" />
           BU<span>SG</span>
         </h1>
         <hr />
         <h2 className="header2">
-          <FontAwesomeIcon className="icon" icon="bus" />
           <Search />
         </h2>
         {this.checkLoc()}

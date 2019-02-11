@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import BusData from "./BusData";
 import NavBar from "./NavBar";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRedoAlt } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faRedoAlt);
 
 class BusStop extends Component {
   constructor() {
@@ -43,7 +48,7 @@ class BusStop extends Component {
             <h4>{this.state.BusStopCode}</h4>
           </h1>
           <button className="refresh" onClick={() => this.fetchData()}>
-            REFRESH
+            <FontAwesomeIcon className="refresh-icon" icon="redo-alt" />
           </button>
         </div>
 
