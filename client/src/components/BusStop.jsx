@@ -13,7 +13,8 @@ class BusStop extends Component {
     this.state = {
       BusStopCode: 0,
       Services: [],
-      BusStopName: ""
+      BusStopName: "",
+      spin: false
     };
   }
   componentDidMount() {
@@ -29,6 +30,9 @@ class BusStop extends Component {
 
   fetchData() {
     console.log("fetching...");
+    this.setState({
+      spin: true
+    });
     fetch("/api/busdata?buscode=" + this.props.stopID)
       .then(response => response.json())
       .then(data =>
@@ -47,7 +51,11 @@ class BusStop extends Component {
             {this.state.BusStopName}
             <h4>{this.state.BusStopCode}</h4>
           </h1>
-          <button className="refresh" onClick={() => this.fetchData()}>
+          <button
+            className={this.state.spin ? "refresh spin" : "refresh"}
+            onClick={() => this.fetchData()}
+            onAnimationEnd={() => this.setState({ spin: false })}
+          >
             <FontAwesomeIcon className="refresh-icon" icon="redo-alt" />
           </button>
         </div>

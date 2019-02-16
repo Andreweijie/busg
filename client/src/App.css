@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Nunito|Quicksand|Nunito+Sans|Puritan|Telex");
+@import url("https://fonts.googleapis.com/css?family=Nunito|Quicksand|Nunito+Sans|Puritan|Telex|Fredoka+One");
 .App {
   text-align: left;
   background-color: #edf2f4;
@@ -9,13 +9,14 @@
 
 .icon {
   transform: scale(0.9);
-  color: #8d99ae;
+  color: #ef233c;
 }
 .App .header {
   font-size: 100px;
   text-align: center;
   font-weight: 100;
   color: #111a2f;
+  font-family: Fredoka One;
 }
 .header2 {
   font-size: 80px;
@@ -73,7 +74,6 @@ a.navbar-brand {
   box-shadow: 0rem 0.35rem 3.375rem 0 #ef233c;
   margin-top: 2em;
   padding: 2em;
-  padding-left: 50px;
   color: white;
 }
 
@@ -85,6 +85,13 @@ a.navbar-brand {
 
 .search input {
   height: 50px;
+  border: none;
+  font-size: 0.3em;
+  font-family: Fredoka One;
+}
+
+.search input:focus {
+  box-shadow: 0rem 0.35rem 3.375rem 0 white;
 }
 
 .refresh,
@@ -92,9 +99,26 @@ a.navbar-brand {
   background: transparent;
   border: none;
   margin-right: 1em;
+  outline: none;
 }
 
 .refresh-icon {
   color: white;
   font-size: 3em;
+}
+.spin {
+  animation-name: spin;
+  animation-duration: 1000ms;
+  animation-iteration-count: 1;
+  animation-timing-function: linear;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }

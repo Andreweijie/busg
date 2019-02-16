@@ -12,7 +12,7 @@ class Search extends Component {
         <input
           type="text"
           className="form-control"
-          placeholder="Search for Buses or Bus Stops"
+          placeholder="Search for buses or bus stops"
           aria-label="Username"
           aria-describedby="basic-addon1"
         />

@@ -25,7 +25,7 @@ class Timing extends Component {
   }
   render() {
     return (
-      <div class="timing">
+      <div className="timing">
         <h2 className="first-time">
           {this.formatToMin(this.props.NextOne.EstimatedArrival)}{" "}
           {this.formatToMin(this.props.NextOne.EstimatedArrival) ==
