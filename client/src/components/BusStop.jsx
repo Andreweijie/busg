@@ -54,6 +54,7 @@ class BusStop extends Component {
           <button
             className={this.state.spin ? "refresh spin" : "refresh"}
             onClick={() => this.fetchData()}
+            onAnimationStart={() => this.setState({ services: [] })}
             onAnimationEnd={() => this.setState({ spin: false })}
           >
             <FontAwesomeIcon className="refresh-icon" icon="redo-alt" />

@@ -3,6 +3,8 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const BusStop = require("./models/busstop");
+const BusRoute = require("./models/busroute");
+const BusService = require("./models/busservice");
 const request = require("request");
 
 const port = 5000;
@@ -97,6 +99,22 @@ app.get("/api/nearby", (req, res) => {
 });
 
 app.get("/api/search", (req, res) => {
-  BusStop.find();
+  let resData = [];
+  let searchQ = req.query.searchQuery;
+  BusService.find(
+    { ServiceNo: new RegExp(searchQ, "i"), Direction: 1 },
+    "ServiceNo",
+    (err, docs) => {
+      res.json(docs);
+      console.log(resData);
+    }
+  ).limit(5);
+  BusStop.find(
+    { BusStopCode: new RegExp(searchQ, "i") },
+    "BusStopCode Description",
+    (err, docs) => {
+      resData.push(docs);
+    }
+  ).limit(5);
 });
 app.listen(port, () => console.log(`Server running on port ${port}`));
