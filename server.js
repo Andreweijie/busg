@@ -105,16 +105,35 @@ app.get("/api/search", (req, res) => {
     { ServiceNo: new RegExp(searchQ, "i"), Direction: 1 },
     "ServiceNo",
     (err, docs) => {
-      res.json(docs);
-      console.log(resData);
+      docs.map(f => {
+        resData.push(f.ServiceNo);
+      });
+      BusStop.find(
+        { BusStopCode: new RegExp(searchQ, "i") },
+        "BusStopCode",
+        (err, doc) => {
+          doc.map(e => {
+            resData.push(e.BusStopCode);
+          });
+          res.json(resData);
+        }
+      ).limit(3);
     }
-  ).limit(5);
-  BusStop.find(
-    { BusStopCode: new RegExp(searchQ, "i") },
-    "BusStopCode Description",
+  ).limit(3);
+});
+
+app.get("/api/routes", (req, res) => {
+  BusRoute.find(
+    { ServiceNo: req.query.serviceno },
+    "ServiceNo BusStopCode",
     (err, docs) => {
-      resData.push(docs);
+      if (err) {
+        console.log(err);
+      } else {
+        console.log(docs);
+        res.json(docs);
+      }
     }
-  ).limit(5);
+  );
 });
 app.listen(port, () => console.log(`Server running on port ${port}`));

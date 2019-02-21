@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./App.css";
 import BusCard from "./components/BusCard";
+import BusStop from "./components/BusStop";
 import Search from "./components/Search";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";

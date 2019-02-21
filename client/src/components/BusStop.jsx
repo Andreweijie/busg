@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import BusData from "./BusData";
-import NavBar from "./NavBar";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRedoAlt } from "@fortawesome/free-solid-svg-icons";

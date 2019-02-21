@@ -61,6 +61,7 @@ a.navbar-brand {
 .bus-stop h1 {
   font-size: 2.5em;
   word-wrap: break-word !important;
+  margin-right: 1em;
 }
 .bus-head {
   display: flex;
@@ -114,11 +115,12 @@ a.navbar-brand {
   animation-timing-function: linear;
 }
 p {
-  font-size: 20px;
+  font-size: 24px;
   padding: 5px;
   padding-left: 12px;
   margin-bottom: 0px !important;
   background-color: white;
+  font-family: Fredoka One;
 }
 
 p:hover {
@@ -127,15 +129,39 @@ p:hover {
 
 a,
 a:hover {
-  color: #111a2f !important;
+  color: #8d99ae !important;
   text-decoration: none !important;
 }
 
 .suggestions {
   padding: 10px;
   border-radius: 0.05em;
-  position: fixed;
-  width: 50%;
+  position: absolute;
+  width: 55%;
+  background-color: white;
+  box-shadow: 0.625rem 0.75rem 3.375rem 0 rgba(78, 98, 117, 0.3);
+}
+
+.modal-root {
+  z-index: 999;
+  position: relative;
+}
+
+#modal-root div div .bus-stop {
+  background-color: white !important;
+  border-radius: 0.5em;
+  box-shadow: 0rem 0.35rem 3.375rem 0 rgba(78, 98, 117, 0.3);
+  margin-top: 2em;
+  padding: 2em;
+  color: #ef233c;
+}
+
+#modal-root div div .bus-stop h2.bus-number {
+  color: white;
+  background-color: #ef233c;
+}
+#modal-root div div .bus-stop .refresh-icon {
+  color: #ef233c;
 }
 @keyframes spin {
   from {

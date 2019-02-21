@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Suggestion from "./Suggestion";
+import Suggestions from "./Suggestions";
 
 class Search extends Component {
   state = {
@@ -11,14 +11,9 @@ class Search extends Component {
     fetch("/api/search?searchQuery=" + this.state.query)
       .then(response => response.json())
       .then(data =>
-        this.setState(
-          {
-            results: data
-          },
-          () => {
-            console.log(this.state.results);
-          }
-        )
+        this.setState({
+          results: data
+        })
       );
   }
 
@@ -39,6 +34,12 @@ class Search extends Component {
       }
     );
   }
+
+  gotSearch() {
+    if (this.state.results.length != 0) {
+      return <Suggestions results={this.state.results} />;
+    }
+  }
   render() {
     return (
       <div className="search container">
@@ -51,7 +52,7 @@ class Search extends Component {
           aria-label="Username"
           aria-describedby="basic-addon1"
         />
-        <Suggestion results={this.state.results} />
+        {this.gotSearch()}
       </div>
     );
   }
