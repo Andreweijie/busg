@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const BusStop = require("./models/busstop");
-const BusRoute = require("./models/busroute");
+const BusRouteTest = require("./models/BusRouteTest");
 const BusService = require("./models/busservice");
 const request = require("request");
 
@@ -105,9 +105,14 @@ app.get("/api/search", (req, res) => {
     { ServiceNo: new RegExp(searchQ, "i"), Direction: 1 },
     "ServiceNo",
     (err, docs) => {
-      docs.map(f => {
-        resData.push(f.ServiceNo);
-      });
+      docs
+        .sort((e1, e2) => {
+          return e1.ServiceNo.length - e2.ServiceNo.length;
+        })
+        .slice(0, 4)
+        .map(f => {
+          resData.push(f.ServiceNo);
+        });
       BusStop.find(
         { BusStopCode: new RegExp(searchQ, "i") },
         "BusStopCode",
@@ -115,17 +120,21 @@ app.get("/api/search", (req, res) => {
           doc.map(e => {
             resData.push(e.BusStopCode);
           });
-          res.json(resData);
+          res.json(
+            resData.sort((e1, e2) => {
+              return e1.length - e2.length;
+            })
+          );
         }
-      ).limit(3);
+      ).limit(4);
     }
-  ).limit(3);
+  ).sort({ ServiceNo: 1 });
 });
 
 app.get("/api/routes", (req, res) => {
-  BusRoute.find(
+  BusRouteTest.find(
     { ServiceNo: req.query.serviceno },
-    "ServiceNo BusStopCode",
+    "BusStopCode Description Direction",
     (err, docs) => {
       if (err) {
         console.log(err);

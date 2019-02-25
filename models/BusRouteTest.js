@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // Create Schema and model
 
-const BusRouteSchema = new Schema({
+const BusRouteTestSchema = new Schema({
   ServiceNo: String,
   Operator: String,
   Direction: Number,
@@ -19,6 +19,6 @@ const BusRouteSchema = new Schema({
   Description: String
 });
 
-const BusRoute = mongoose.model("busroute", BusRouteSchema);
+const BusRouteTest = mongoose.model("busroutetest", BusRouteTestSchema);
 
-module.exports = BusRoute;
+module.exports = BusRouteTest;

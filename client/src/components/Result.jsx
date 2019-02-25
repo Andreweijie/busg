@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Modal from "./Modal";
-import Routes from "./Routes";
+import Routes from "./RouteCard";
 import BusStop from "./BusStop";
 class Result extends Component {
   state = {
@@ -13,15 +13,22 @@ class Result extends Component {
   };
   render() {
     return (
-      <a href="#" onClick={this.toggleModal}>
-        <p>{this.props.result}</p>
-        <Modal open={this.state.showModal}>
-          {this.props.result.length == 5 ? (
-            <BusStop stopID={this.props.result} />
-          ) : (
-            <Routes />
-          )}
-        </Modal>
+      <a href="#">
+        <p
+          onClick={this.toggleModal}
+          className={this.props.query == this.props.result ? "match" : "test"}
+        >
+          {this.props.result}
+        </p>
+        {this.state.showModal ? (
+          <Modal open={this.state.showModal} onClose={this.toggleModal}>
+            {this.props.result.length == 5 ? (
+              <BusStop stopID={this.props.result} />
+            ) : (
+              <Routes serviceNo={this.props.result} />
+            )}
+          </Modal>
+        ) : null}
       </a>
     );
   }

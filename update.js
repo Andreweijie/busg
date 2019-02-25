@@ -35,39 +35,28 @@ mongoose.connection
   }, 5000);
 }*/
 
-let skip = 0;
 function start(counter) {
-  if (counter <= 26000) {
+  if (counter < data1.length) {
     setTimeout(function() {
-      counter += 500;
-      var options = {
-        method: "GET",
-        url:
-          "http://datamall2.mytransport.sg/ltaodataservice/BusRoutes?$skip=" +
-          skip,
-        headers: {
-          accept: "application/json",
-          AccountKey: "xGVgRkvQRJK7Mr6RGYiLLQ=="
+      BusRouteTest.updateMany(
+        { BusStopCode: data1[counter].BusStopCode },
+        { $set: { Description: data1[counter].Description } },
+        { multi: true },
+        err => {
+          if (err) {
+            console.log(err);
+          } else {
+            console.log("Updated!");
+          }
         }
-      };
-      request(options, function(error, response, body) {
-        if (error) throw new Error(error);
-        let modData = JSON.parse(body).value;
-        modData.map(e => {
-          e.Description = "test";
-        });
-
-        BusRouteTest.insertMany(modData, docs => {
-          console.log("Docs inserted successfully");
-        });
-      });
-      skip += 500;
+      );
+      counter += 1;
       start(counter);
     }, 5000);
   }
 }
 start(0);
-/*
+/*()
 BusStop.find({}, "BusStopCode Description", (err, docs) => {
   if (err) {
     console.log(err);
@@ -81,4 +70,15 @@ BusStop.find({}, "BusStopCode Description", (err, docs) => {
     });
   }
 });
-*/
+BusRouteTest.updateMany(
+  {},
+  { $set: { Description: "test2" } },
+  { multi: true },
+  err => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("Updated!");
+    }
+  }
+);*/

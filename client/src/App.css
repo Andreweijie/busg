@@ -1,4 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Nunito|Quicksand|Nunito+Sans|Puritan|Telex|Fredoka+One");
+body {
+  background-color: #edf2f4;
+}
 .App {
   text-align: left;
   background-color: #edf2f4;
@@ -72,8 +75,8 @@ a.navbar-brand {
 }
 .bus-stop {
   background-color: #ef233c;
-  border-radius: 0.5em;
-  box-shadow: 0rem 0.35rem 3.375rem 0 #ef233c;
+  border-radius: 0.3em;
+  /*box-shadow: 0rem 0.35rem 3.375rem 0 #ef233c;*/
   margin-top: 2em;
   padding: 2em;
   color: white;
@@ -146,7 +149,10 @@ a:hover {
   z-index: 999;
   position: relative;
 }
-
+.directions {
+  display: flex;
+  flex-direction: row;
+}
 #modal-root div div .bus-stop {
   background-color: white !important;
   border-radius: 0.5em;
@@ -161,6 +167,32 @@ a:hover {
   background-color: #ef233c;
 }
 #modal-root div div .bus-stop .refresh-icon {
+  color: #ef233c;
+}
+
+#btndiv {
+  display: flex;
+  justify-content: center;
+  align-content: flex-end;
+  margin-bottom: -60px;
+}
+
+#btndiv .icon {
+  transform: scale(2.2);
+}
+.route-card {
+  background-color: white !important;
+  border-radius: 0.5em;
+  box-shadow: 0rem 0.35rem 3.375rem 0 rgba(78, 98, 117, 0.3);
+  margin-top: 2em;
+  padding: 2em;
+  color: #ef233c;
+}
+.routelist {
+  padding: 5px;
+}
+
+.match {
   color: #ef233c;
 }
 @keyframes spin {

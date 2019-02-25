@@ -37,7 +37,9 @@ class Search extends Component {
 
   gotSearch() {
     if (this.state.results.length != 0) {
-      return <Suggestions results={this.state.results} />;
+      return (
+        <Suggestions query={this.state.query} results={this.state.results} />
+      );
     }
   }
   render() {
