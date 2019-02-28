@@ -31,7 +31,6 @@ class Modal extends React.Component {
             borderRadius: "2px",
             display: "inline-block",
             minHeight: "300px",
-            margin: "1rem",
             position: "relative",
             maxWidth: "900px",
             width: "100vw",

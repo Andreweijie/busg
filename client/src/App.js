@@ -1,20 +1,34 @@
 import React, { Component } from "react";
 import "./App.css";
 import BusCard from "./components/BusCard";
-import BusStop from "./components/BusStop";
 import Search from "./components/Search";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBus } from "@fortawesome/free-solid-svg-icons";
+import { withCookies, Cookies } from "react-cookie";
+import { instanceOf } from "prop-types";
 
 library.add(faBus);
 
 class App extends Component {
-  state = {
-    userLat: 0,
-    userLon: 0
+  static propTypes = {
+    cookies: instanceOf(Cookies).isRequired
   };
+
+  constructor(props) {
+    super(props);
+
+    const { cookies } = props;
+    this.state = {
+      name: cookies.get("name") || "Andre",
+      favourites: {},
+      userLat: 0,
+      userLon: 0
+    };
+  }
+
   componentDidMount() {
+    this.handleNameChange("Andrew");
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         this.setState({
@@ -23,6 +37,13 @@ class App extends Component {
         });
       });
     }
+  }
+
+  handleNameChange(name) {
+    const { cookies } = this.props;
+
+    cookies.set("name", name, { path: "/" });
+    this.setState({ name });
   }
 
   checkLoc() {
@@ -34,6 +55,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state.name);
     return (
       <div className="App">
         <h1 className="header">
@@ -50,4 +72,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withCookies(App);

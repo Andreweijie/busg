@@ -11,9 +11,12 @@ const port = 5000;
 
 app.use(bodyParser.json());
 
-mongoose.connect("mongodb://localhost:27017/busdata", {
-  useNewUrlParser: true
-});
+mongoose.connect(
+  "mongodb+srv://andreweijie:cdmbcdmb1@busgprod-hylze.gcp.mongodb.net/busdata?retryWrites=true",
+  {
+    useNewUrlParser: true
+  }
+);
 
 let distance = (lat1, lon1, lat2, lon2) => {
   let R = 6371; // km (change this constant to get miles)
@@ -134,7 +137,7 @@ app.get("/api/search", (req, res) => {
 app.get("/api/routes", (req, res) => {
   BusRouteTest.find(
     { ServiceNo: req.query.serviceno },
-    "BusStopCode Description Direction",
+    "BusStopCode Description Direction OriginCode",
     (err, docs) => {
       if (err) {
         console.log(err);

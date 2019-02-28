@@ -16,9 +16,9 @@ class Timing extends Component {
 
   sinOrDoub(type) {
     if (type == "SD") {
-      return "Single";
+      return "single";
     } else if (type == "DD") {
-      return "Double";
+      return "double";
     } else {
       return "";
     }

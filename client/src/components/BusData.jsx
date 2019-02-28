@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import Timing from "./Timing";
 import Modal from "./Modal";
 import RouteCard from "./RouteCard";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBus } from "@fortawesome/free-solid-svg-icons";
+
+library.add(faBus);
 
 class BusData extends Component {
   state = {
@@ -16,7 +21,8 @@ class BusData extends Component {
     return (
       <div className="bus-data">
         <h2 className="bus-number" onClick={this.toggleModal}>
-          Bus {this.props.services.ServiceNo}
+          <FontAwesomeIcon className="icon" icon="bus" />{" "}
+          {this.props.services.ServiceNo}
         </h2>
         {this.state.showModal ? (
           <Modal open={this.state.showModal} onClose={this.toggleModal}>

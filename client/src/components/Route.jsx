@@ -6,6 +6,9 @@ class Route extends Component {
   render() {
     return (
       <div className="routelist">
+        <div className="destination" style={{ height: "3em" }}>
+          TO: {this.props.start}
+        </div>
         {this.props.routes.map(e => {
           return (
             <div>
