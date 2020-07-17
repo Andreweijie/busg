@@ -1,16 +1,25 @@
-import React, { Component } from "react";
+import React from "react";
 import Result from "./Result";
 
-class Suggestions extends Component {
-  render() {
-    return (
-      <div className="suggestions">
-        {this.props.results.map(e => {
-          return <Result query={this.props.query} result={e} />;
-        })}
-      </div>
-    );
-  }
-}
+const Suggestions = props => {
+  return (
+    <div className="suggestions">
+      {props.results[0].map(e => {
+        return <Result query={props.query} stopCode={e} />;
+      })}
+      {props.results[1].map(e => {
+        let stopCode = e.stopCode;
+        let description = e.description;
+        return (
+          <Result
+            query={props.query}
+            stopCode={stopCode}
+            description={description}
+          />
+        );
+      })}
+    </div>
+  );
+};
 
 export default Suggestions;

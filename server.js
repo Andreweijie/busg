@@ -6,8 +6,75 @@ const BusStop = require("./models/busstop");
 const BusRouteTest = require("./models/BusRouteTest");
 const BusService = require("./models/busservice");
 const request = require("request");
+const async = require("async");
 
 const port = 5000;
+
+const areas = {
+  Downtown: { code: 0, lat: 1.279353, lng: 103.852683 },
+  Orchard: { code: 0, lat: 1.30494, lng: 103.832275 },
+  Chinatown: { code: 0, lat: 1.280085, lng: 103.844473 },
+  Bugis: { code: 0, lat: 1.300892, lng: 103.854597 },
+  Lavender: { code: 0, lat: 1.307544, lng: 103.86268 },
+  HarbourFront: { code: 1, lat: 1.265865, lng: 103.821427 },
+  BukitMerah: { code: 1, lat: 1.282137, lng: 103.819286 },
+  RiverValley: { code: 1, lat: 1.297108, lng: 103.834819 },
+  Tanglin: { code: 1, lat: 1.306324, lng: 103.818784 },
+  Holland: { code: 1, lat: 1.3129, lng: 103.798263 },
+  Buona: { code: 1, lat: 1.309179, lng: 103.792282 },
+  PasirPanjang: { code: 1, lat: 1.281146, lng: 103.784489 },
+  Clementi: { code: 1, lat: 1.31496, lng: 103.764584 },
+  WestCoast: { code: 1, lat: 1.30406, lng: 103.76493 },
+  JurongEast: { code: 2 },
+  JurongWest: { code: 2 },
+  Tuas: { code: 2 },
+  JalanBahar: { code: 3 },
+  OldCCK: { code: 3 },
+  BukitTimah: { code: 4 },
+  Lornie: { code: 4 },
+  BukitBatok: { code: 4 },
+  UpperBukitTimah: { code: 4 },
+  CCK: { code: 4 },
+  BukitPanjang: { code: 4 },
+  Kranji: { code: 4 },
+  NeoTiew: { code: 4 },
+  Woodlands: { code: 4 },
+  Admiralty: { code: 4 },
+  JB: { code: 4 },
+  Moulmein: { code: 5 },
+  ToaPayoh: { code: 5 },
+  Bishan: { code: 5 },
+  AMK: { code: 5 },
+  Thomson: { code: 5 },
+  Lentor: { code: 5 },
+  Yishun: { code: 5 },
+  Sembawang: { code: 5 },
+  KallangBahru: { code: 6 },
+  Serangoon: { code: 6 },
+  Hougang: { code: 6 },
+  Sengkang: { code: 6 },
+  Punggol: { code: 6 },
+  SeletarWest: { code: 6 },
+  MacPherson: { code: 7 },
+  Ubi: { code: 7 },
+  KakiBukit: { code: 7 },
+  Tampines: { code: 7 },
+  PasirRis: { code: 7 },
+  Kallang: { code: 8 },
+  Geylang: { code: 8 },
+  JooChiat: { code: 8 },
+  TelokKurau: { code: 8 },
+  Eunos: { code: 8 },
+  Bedok: { code: 8 },
+  BedokReservoir: { code: 8 },
+  Simpang: { code: 8 },
+  Mountbatten: { code: 9 },
+  EastCoast: { code: 9 },
+  UpperEC: { code: 9 },
+  Simei: { code: 9 },
+  Loyang: { code: 9 },
+  Changi: { code: 9 }
+};
 
 app.use(bodyParser.json());
 
@@ -33,6 +100,49 @@ let distance = (lat1, lon1, lat2, lon2) => {
   return Math.round(d * 1000);
 };
 
+async function searchServiceNo(query, callback) {
+  let searchResults = [];
+  await BusService.find(
+    { ServiceNo: new RegExp(query, "i"), Direction: 1 },
+    "ServiceNo",
+    (err, docs) => {
+      docs
+        .sort((e1, e2) => {
+          return e1.ServiceNo.length - e2.ServiceNo.length;
+        })
+        .slice(0, 4)
+        .map(f => {
+          searchResults.push(f.ServiceNo);
+        });
+      callback(null, searchResults);
+    }
+  ).sort({ ServiceNo: 1 });
+}
+
+async function searchStopNumber(query, callback) {
+  let searchResults = [];
+  BusStop.find(
+    {
+      $or: [
+        { Description: new RegExp(query, "i") },
+        { BusStopCode: new RegExp(query, "i") }
+      ]
+    },
+    "BusStopCode Description",
+    (err, doc) => {
+      doc.map(e => {
+        let data = { stopCode: e.BusStopCode, description: e.Description };
+        searchResults.push(data);
+      });
+      callback(
+        null,
+        searchResults.sort((e1, e2) => {
+          return e1.length - e2.length;
+        })
+      );
+    }
+  ).limit(8);
+}
 mongoose.connection
   .once("open", () => {
     console.log("Connection has been made...");
@@ -42,8 +152,6 @@ mongoose.connection
   });
 
 app.get("/api/busdata", (req, res) => {
-  console.log(req.url);
-  console.log(req.query.buscode);
   var options = {
     method: "GET",
     url: "http://datamall2.mytransport.sg/ltaodataservice/BusArrivalv2",
@@ -68,9 +176,7 @@ app.get("/api/busname", (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        console.log(req.url);
         res.json(docs);
-        console.log("Document retrieved successfully");
       }
     }
   );
@@ -81,7 +187,6 @@ app.get("/api/nearby", (req, res) => {
     if (err) {
       console.log(err);
     } else {
-      console.log(req.url);
       const userLat = req.query.userLat;
       const userLon = req.query.userLon;
       let resEnd = {};
@@ -104,40 +209,58 @@ app.get("/api/nearby", (req, res) => {
 app.get("/api/search", (req, res) => {
   let resData = [];
   let searchQ = req.query.searchQuery;
-  BusService.find(
-    { ServiceNo: new RegExp(searchQ, "i"), Direction: 1 },
-    "ServiceNo",
-    (err, docs) => {
-      docs
-        .sort((e1, e2) => {
-          return e1.ServiceNo.length - e2.ServiceNo.length;
-        })
-        .slice(0, 4)
-        .map(f => {
-          resData.push(f.ServiceNo);
-        });
-      BusStop.find(
-        { BusStopCode: new RegExp(searchQ, "i") },
-        "BusStopCode",
-        (err, doc) => {
-          doc.map(e => {
-            resData.push(e.BusStopCode);
-          });
-          res.json(
-            resData.sort((e1, e2) => {
-              return e1.length - e2.length;
-            })
-          );
-        }
-      ).limit(4);
+  async.parallel(
+    [
+      function(callback) {
+        searchServiceNo(searchQ, callback);
+      },
+      function(callback) {
+        searchStopNumber(searchQ, callback);
+      }
+    ],
+    (err, results) => {
+      console.log(results);
+      res.json(results);
     }
-  ).sort({ ServiceNo: 1 });
+  );
+});
+
+app.post("/api/busstopcoord", (req, res) => {
+  console.log(req.url);
+  console.log(req.body);
+  let stopArray = req.body;
+  stopCoords = [];
+  async.map(
+    stopArray,
+    async item => {
+      let data = [];
+      await BusStop.find(
+        { BusStopCode: item.toString() },
+        "Latitude Longitude",
+        (err, docs) => {
+          if (err) {
+            console.log(err);
+          } else {
+            data = docs;
+          }
+        }
+      );
+      return data;
+    },
+    (err, results) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.json(results);
+      }
+    }
+  );
 });
 
 app.get("/api/routes", (req, res) => {
   BusRouteTest.find(
     { ServiceNo: req.query.serviceno },
-    "BusStopCode Description Direction OriginCode",
+    "BusStopCode Description Direction StopSequence",
     (err, docs) => {
       if (err) {
         console.log(err);
@@ -146,6 +269,6 @@ app.get("/api/routes", (req, res) => {
         res.json(docs);
       }
     }
-  );
+  ).sort({ StopSequence: 1 });
 });
 app.listen(port, () => console.log(`Server running on port ${port}`));

@@ -16,11 +16,13 @@
     "nodemon": "^1.14.6"
   },
   "dependencies": {
+    "async": "^2.6.2",
     "body-parser": "^1.18.3",
     "concurrently": "^3.5.1",
     "express": "^4.16.4",
     "mongodb": "^3.1.13",
     "mongoose": "^5.4.9",
+    "react-tabs": "^3.0.0",
     "request": "^2.88.0"
   }
 }

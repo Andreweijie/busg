@@ -20,10 +20,13 @@ class BusData extends Component {
   render() {
     return (
       <div className="bus-data">
-        <h2 className="bus-number" onClick={this.toggleModal}>
-          <FontAwesomeIcon className="icon" icon="bus" />{" "}
-          {this.props.services.ServiceNo}
-        </h2>
+        <a href="#header">
+          <h2 className="bus-number" onClick={this.toggleModal}>
+            <FontAwesomeIcon className="icon" icon="bus" />{" "}
+            {this.props.services.ServiceNo}
+          </h2>
+        </a>
+
         {this.state.showModal ? (
           <Modal open={this.state.showModal} onClose={this.toggleModal}>
             <RouteCard serviceNo={this.props.services.ServiceNo} />

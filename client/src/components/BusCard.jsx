@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import BusStop from "./BusStop";
+import ls from "local-storage";
 
 class BusCard extends Component {
   state = {
@@ -27,13 +28,42 @@ class BusCard extends Component {
         let nearbyCode = sortable.map(e => {
           return e[0];
         });
-
-        this.setState({
-          nearbyCode: nearbyCode
-        });
+        if (ls.get("favourites")) {
+          let favsString = ls.get("favourites");
+          let favsData = favsString.split(",");
+          favsData.map(e => {
+            nearbyCode.unshift(e.toString());
+          });
+          let uniq = [...new Set(nearbyCode)];
+          this.setState(
+            {
+              nearbyCode: uniq
+            },
+            () => {
+              console.log("test");
+              fetch("/api/busstopcoord", {
+                method: "post",
+                body: JSON.stringify(this.state.nearbyCode),
+                headers: {
+                  "Content-Type": "application/json"
+                }
+              })
+                .then(response => response.json())
+                .then(data => {
+                  console.log(data);
+                  this.setState({ nearbyCoords: data });
+                });
+            }
+          );
+        } else {
+          this.setState({
+            nearbyCode
+          });
+        }
       });
   }
   render() {
+    console.log(this.state.nearbyCode);
     return (
       <div className="container bus-card">
         {this.state.nearbyCode.map(e => {

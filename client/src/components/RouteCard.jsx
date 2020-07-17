@@ -3,6 +3,8 @@ import Route from "./Route";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBus } from "@fortawesome/free-solid-svg-icons";
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
 
 library.add(faBus);
 class RouteCard extends Component {
@@ -50,12 +52,23 @@ class RouteCard extends Component {
           <FontAwesomeIcon className="icon" icon="bus" /> {this.props.serviceNo}
         </h1>
         <hr />
-        <div className="directions">
-          <Route routes={this.state.route1} start={this.state.route1name} />
+        <Tabs>
+          <TabList>
+            <Tab>{this.state.route1name.toUpperCase()}</Tab>
+            {this.state.route2.length != 0 ? (
+              <Tab>{this.state.route2name.toUpperCase()}</Tab>
+            ) : null}
+          </TabList>
+
+          <TabPanel>
+            <Route routes={this.state.route1} />
+          </TabPanel>
           {this.state.route2.length != 0 ? (
-            <Route routes={this.state.route2} start={this.state.route2name} />
+            <TabPanel>
+              <Route routes={this.state.route2} />
+            </TabPanel>
           ) : null}
-        </div>
+        </Tabs>
       </div>
     );
   }
